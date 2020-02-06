@@ -3,9 +3,21 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
-const port = 8000;
+const port = 3000;
 const jwt = require("express-jwt");
 const jwksRsa = require("jwks-rsa");
+const mysql = require('mysql');
+
+var config =
+{
+	host: 'patientpreview01-mysqldbserver.mysql.database.azure.com',
+	user: 'sam@patientpreview01-mysqldbserver',
+	password: '405admin!',
+	database: 'production',
+	port: 3306,
+	ssl: true
+};
+
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -13,8 +25,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // Set up Auth0 configuration
 const authConfig = {
-  domain: "YOUR-DOMAIN",
-  audience: "YOUR-IDENTIFIER"
+  domain: "dev-7rrry9gm.auth0.com",
+  audience: "patientpreview"
 };
 
 // Create middleware to validate the JWT using express-jwt
@@ -32,6 +44,9 @@ const checkJwt = jwt({
   issuer: `https://${authConfig.domain}/`,
   algorithm: ["RS256"]
 });
+
+const conn = new mysql.createConnection(config);
+
 
 // mock data to send to our frontend
 let events = [
@@ -79,6 +94,39 @@ app.get("/events/:id", checkJwt, (req, res) => {
 app.get("/", (req, res) => {
   res.send(`Hi! Server is listening on port ${port}`);
 });
+
+app.post("/search", checkJwt, (req, res) => {
+  const name = req.body.name
+
+  conn.connect(
+    function (err) { 
+    if (err) { 
+      console.log("!!! Cannot connect !!! Error:");
+      throw err;
+    }
+    else
+    {
+        console.log("Connection established.");
+
+        conn.query('SELECT * FROM lawsuit WHERE plaintiff LIKE ?', [name],
+        function (err, results, fields) {
+          if (err) throw err;
+          else console.log('Selected ' + results.length + ' row(s).');
+          for (i = 0; i < results.length; i++) {
+            console.log('Row: ' + JSON.stringify(results[i]));
+          }
+          console.log('Done.');
+          res.send(results);
+        })
+        conn.end(
+          function (err) { 
+          if (err) throw err;
+          else  console.log('Closing connection.') 
+        })
+    }	
+  })
+
+})
 
 // listen on the port
 app.listen(port);

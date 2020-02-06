@@ -47,6 +47,7 @@ export default {
   },
   created() {
     this.getEventData();
+    console.log(process.env.NODE_ENV)
   },
   methods: {
     async getEventData() {
@@ -59,6 +60,14 @@ export default {
         (event => {
           this.$set(this, "event", event);
         }).bind(this)
+      );
+
+      EventService.testSearch(accessToken)
+      .then(
+        (response => {
+          //console.log(response)
+          response
+        })
       );
     }
   }
