@@ -35,8 +35,7 @@
   </div>
 </template>
 <script>
-// import EventService
-import EventService from '@/services/EventService.js';
+import SearchService from '@/services/SearchService.js';
 export default {
   name: 'EventSingle',
   data() {
@@ -47,7 +46,6 @@ export default {
   },
   created() {
     this.getEventData();
-    console.log(process.env.NODE_ENV)
   },
   methods: {
     async getEventData() {
@@ -55,14 +53,14 @@ export default {
       const accessToken = await this.$auth.getTokenSilently()
 
       // Use the eventService to call the getEventSingle method
-      EventService.getEventSingle(this.$route.params.id, accessToken)
+      SearchService.getEventSingle(this.$route.params.id, accessToken)
       .then(
         (event => {
           this.$set(this, "event", event);
         }).bind(this)
       );
 
-      EventService.testSearch(accessToken)
+      SearchService.testSearch(accessToken)
       .then(
         (response => {
           //console.log(response)
