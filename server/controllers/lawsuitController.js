@@ -5,7 +5,7 @@ module.exports = {
   listAllLawsuits: (req, res) => {
     conn.query("Select * from lawsuit",
     (err, results, fields) => {
-      if (err) res.send(err)
+      if (err) rres.status(400);
       res.send(results);
     })
   },
@@ -13,7 +13,7 @@ module.exports = {
   getLawsuitById: (req, res) => {
     conn.query("Select * from lawsuit where id = ? ", req.params.id,
     (err, results, fields) => {
-      if (err) res.send(err)
+      if (err) res.status(400);
       res.send(results);
     })
   }

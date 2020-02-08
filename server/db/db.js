@@ -9,8 +9,4 @@ var conn = mysql.createConnection({
 	ssl: true
 });
 
-conn.connect((err) => {
-    if (err) throw err;
-});
-
 module.exports = conn;
