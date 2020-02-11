@@ -20,12 +20,6 @@ export default new Router({
       component: () => import('../views/About.vue')
     },
     {
-      path: '/event/:id',
-      name: 'eventSingle',
-      component: () => import('../views/EventSingle.vue'),
-      beforeEnter: authGuard
-    },
-    {
       path: '/search',
       name: 'search',
       component: () => import('../views/Search.vue'),

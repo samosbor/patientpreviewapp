@@ -1,17 +1,17 @@
 <template>
-  <v-container>
-    <v-col>
+  <v-row class="pa-5">
+    <v-col cols="3">
       <RefineSearch />
     </v-col>
     <v-col>
-      <v-row justify="center">
+      <v-row>
         <SearchBox @searchresults="setLawsuits($event)"/>
       </v-row>
-      <v-row justify="center">
+      <v-row>
         <LawsuitList v-bind:lawsuits="lawsuits"/>
       </v-row>
     </v-col>
-  </v-container>
+  </v-row>
 </template>
 
 

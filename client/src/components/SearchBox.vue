@@ -1,7 +1,6 @@
 <template>
   <v-card
     :loading="loading"
-    max-width="700px"
   >
     <v-card-title>
       Search For a Potential Patient
