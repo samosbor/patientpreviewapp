@@ -30,4 +30,5 @@ RUN cp -r dist/* /var/www/html
 RUN chown nginx:nginx /var/www/html
 
 # start nginx and keep the process from backgrounding and the container from quitting
+EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
