@@ -34,7 +34,7 @@ stages:
       vmImage: $(vmImageName)
     steps:
     - task: Docker@2
-      displayName: Build and push an image to container registry
+      displayName: Server - Build and push container
       inputs:
         command: buildAndPush
         repository: $(imageRepository-server)
@@ -43,7 +43,7 @@ stages:
         tags: |
           $(tag)
     - task: Docker@2
-      displayName: Build and push an image to container registry
+      displayName: Client - Build and push container
       inputs:
         command: buildAndPush
         repository: $(imageRepository-client)
