@@ -1,23 +1,23 @@
 <template>
-  <div id="app">
-    <Nav />
-    <router-view/>
-  </div>
+  <v-app>
+    <Header/>
+    <v-content>
+      <router-view/>
+    </v-content>
+  </v-app>
 </template>
+
 <script>
-import Nav from './components/partials/Nav.vue';
+import Header from './components/Header';
+
 export default {
-  name: 'app',
+  name: 'App',
   components: {
-    Nav
-  }  
-}
+    Header,
+  },
+
+  data: () => ({
+    //
+  }),
+};
 </script>
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-}
-</style>

@@ -15,9 +15,9 @@ export default {
     });
     return res.data;
   },
-  async testSearch(accessToken) {
+  async search(accessToken, name) {
     let res = await axios.post(base + "/search", {
-        name: "Erika Peay",
+        name: name,
       },
       {
       headers: {

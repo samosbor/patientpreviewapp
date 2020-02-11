@@ -60,7 +60,7 @@ export default {
         }).bind(this)
       );
 
-      SearchService.testSearch(accessToken)
+      SearchService.search(accessToken)
       .then(
         (response => {
           //console.log(response)
