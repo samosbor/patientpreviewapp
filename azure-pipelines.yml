@@ -12,10 +12,14 @@ resources:
 variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: 'b68e233f-431f-4644-af64-d747ab49a3cd'
-  imageRepository: 'prodserver'
   containerRegistry: 'patientpreview01.azurecr.io'
-  dockerfilePath: 'server/Dockerfile'
   tag: '$(Build.BuildId)'
+
+  imageRepository-server: 'prodserver'
+  dockerfilePath-server: 'server/Dockerfile'
+
+  imageRepository-client: 'prodclient'
+  dockerfilePath-client: 'client/Dockerfile'
   
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -33,8 +37,17 @@ stages:
       displayName: Build and push an image to container registry
       inputs:
         command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
+        repository: $(imageRepository-server)
+        dockerfile: $(dockerfilePath-server)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository-client)
+        dockerfile: $(dockerfilePath-client)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
