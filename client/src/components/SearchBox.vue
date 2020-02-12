@@ -1,6 +1,9 @@
 <template>
   <v-card
     :loading="loading"
+    width="100%"
+    color="primary"
+    dark
   >
     <v-card-title>
       Search For a Potential Patient
@@ -28,12 +31,11 @@ export default {
   }),
   methods: {
     async makeSearch() {
-      this.loading = true
+      this.loading = "warning"
       const accessToken = await this.$auth.getTokenSilently()
 
       SearchService.search(accessToken, this.name)
       .then((result) => {
-        console.log(result)
         this.$emit('searchresults', result)
         this.loading = false
       })

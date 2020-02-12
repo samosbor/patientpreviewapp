@@ -25,6 +25,7 @@
           :key="i"
           dense
         >
+          <v-checkbox v-model="selectedStates" :value="state.name"></v-checkbox>
           <v-list-item-title v-text="state.name"></v-list-item-title>
       </v-list-item>
 
@@ -37,11 +38,21 @@ import statesJson from '../assets/states'
 export default {
   name: 'RefineSearch',
   data: () => ({
-    states: statesJson
+    states: statesJson,
+    selectedStates: []
   }),
+  computed: {
+    filters() {
+      var filters = {
+        state: this.selectedStates
+      }
+      this.emitFilters(filters)
+      return filters
+    }
+  },
   methods: {
-    setState(event) {
-      this.lawsuits = event
+    emitFilters(filters) {
+      this.$emit('filterschanged', filters)
     }
   }
   
