@@ -25,7 +25,7 @@
           :key="i"
           dense
         >
-          <v-checkbox v-model="selectedStates" :value="state.name"></v-checkbox>
+          <v-checkbox v-model="selectedStates" :value="state.name" @change="emitFilters()"></v-checkbox>
           <v-list-item-title v-text="state.name"></v-list-item-title>
       </v-list-item>
 
@@ -46,13 +46,14 @@ export default {
       var filters = {
         state: this.selectedStates
       }
-      this.emitFilters(filters)
       return filters
     }
   },
   methods: {
-    emitFilters(filters) {
-      this.$emit('filterschanged', filters)
+    emitFilters() {
+      this.$nextTick(() => {
+        this.$emit('filterschanged', this.filters)
+      })
     }
   }
   

@@ -70,7 +70,7 @@ export default {
     },
     filterStates(matchesInProgress) {
       return matchesInProgress.filter(lawsuit => {
-        if (lawsuit && this.filters.state.includes(lawsuit.state)) {
+        if (lawsuit && this.filters.state.toLowerCase().includes(lawsuit.state.toLowerCase())) {
           return lawsuit
         }
       })
