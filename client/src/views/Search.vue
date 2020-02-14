@@ -23,6 +23,8 @@
 import SearchBox from '@/components/SearchBox'
 import LawsuitList from '@/components/LawsuitList'
 import RefineSearch from '@/components/RefineSearch'
+import { store } from '@/store/store'
+import UserService from '@/services/UserService'
 export default {
   name: 'Search',
   components: {
@@ -34,12 +36,26 @@ export default {
     lawsuits: [],
     filters: {}
   }),
+  created() {
+    store.user = this.$auth.user
+    this.setUp()
+  },
   methods: {
     setLawsuits(event) {
       this.lawsuits = event
     },
     setFilters(event) {
       this.filters = event
+    },
+    async setUp() {
+      const accessToken = await this.$auth.getTokenSilently()
+
+      if (!store.userdata) {
+        UserService.getUserData(accessToken, store.user.sub)
+        .then(result => {
+          store.userData = result
+        })
+      }
     }
   }
 }

@@ -1,6 +1,7 @@
 const auth = require('../auth')
 const search = require('../controllers/searchController')
 const lawsuit = require('../controllers/lawsuitController')
+const user = require('../controllers/userController')
 
 let events = [
   {
@@ -54,5 +55,9 @@ module.exports = function(app) {
 
   app.get("/lawsuit/:id", auth.checkJwt, (req, res) => {
     lawsuit.getLawsuitById(req, res)
+  })
+
+  app.post("/getuserdata", auth.checkJwt, (req, res) => {
+    user.getUserData(req, res)
   })
 }

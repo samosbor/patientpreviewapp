@@ -15,6 +15,7 @@
       </v-list-item-group>
     </v-list>
     <v-spacer></v-spacer>
+    <v-divider></v-divider>
     <v-list rounded>
       <v-subheader>Other results</v-subheader>
       <v-list-item-group v-model="nonMatches" color="primary">
