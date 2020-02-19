@@ -5,7 +5,7 @@
       "type": "blobTrigger",
       "dataType": "binary",
       "direction": "in",
-      "path": "data-intake/xchangeutah/{name}",
+      "path": "data-intake/xchangeutah/{name}.json",
       "connection": "AzureWebJobsStorage"
     }
   ]
