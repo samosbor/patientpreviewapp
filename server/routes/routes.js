@@ -60,4 +60,8 @@ module.exports = function(app) {
   app.post("/getuserdata", auth.checkJwt, (req, res) => {
     user.getUserData(req, res)
   })
+
+  app.post("/getcompanyusers", auth.checkJwt, (req, res) => {
+    user.getCompanyUsers(req, res)
+  })
 }

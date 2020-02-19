@@ -19,6 +19,23 @@ export default new Router({
       name: 'search',
       component: () => import('../views/Search.vue'),
       beforeEnter: authGuard
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('../views/Profile.vue'),
+      beforeEnter: authGuard
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: () => import('../views/Admin.vue'),
+      beforeEnter: authGuard
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      component: () => import('../views/Signup.vue'),
     }
   ]
 })

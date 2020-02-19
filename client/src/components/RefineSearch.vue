@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card elevation="24">
     <v-list-item>
       <v-list-item-content>
         <v-list-item-title>
@@ -25,7 +25,7 @@
           :key="i"
           dense
         >
-          <v-checkbox v-model="selectedStates" :value="state.name" @change="emitFilters()"></v-checkbox>
+          <v-checkbox v-model="selectedStates" :value="state.lname" @change="emitFilters()"></v-checkbox>
           <v-list-item-title v-text="state.name"></v-list-item-title>
       </v-list-item>
 

@@ -1,5 +1,5 @@
 <template>
-    <v-app-bar app color="primary">
+    <v-app-bar app color="primary" class="px-2">
       <v-toolbar-title class="headline text-uppercase"
         @click="$router.push('/search')"
         style="cursor: pointer">
@@ -10,33 +10,32 @@
       
       <v-btn v-if="$auth.isAuthenticated" dark outlined @click="logout()">Logout</v-btn>
       <v-menu offset-y v-if="$auth.isAuthenticated">
-      <template v-slot:activator="{ on }">
-        <v-btn
-          color="white"
-          icon
-          v-on="on"
-        >
-          <v-icon>mdi-menu</v-icon>
-        </v-btn>
-      </template>
-      <v-list>
-        <v-list-item
-          v-if="store.user"
-          key="Profile"
-          @click="$router.push('/profile')"
-        >
-          <v-list-item-title>Profile</v-list-item-title>
-        </v-list-item>
-        <v-list-item
-          v-if="admin"
-          key="Admin"
-          @click="$router.push('/admin')"
-        >
-          <v-list-item-title>Admin</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
-
+        <template v-slot:activator="{ on }">
+          <v-btn
+            color="white"
+            icon
+            v-on="on"
+          >
+            <v-icon>mdi-menu</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item
+            v-if="store.user"
+            key="Profile"
+            @click="$router.push('/profile')"
+          >
+            <v-list-item-title>Profile</v-list-item-title>
+          </v-list-item>
+          <v-list-item
+            v-if="admin"
+            key="Admin"
+            @click="$router.push('/admin')"
+          >
+            <v-list-item-title>Admin</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
 </template>
 <script>
@@ -49,7 +48,7 @@ export default {
   }),
   computed: {
     admin() {
-      return this.store.user && this.store.userData && this.store.userData.Role == "Administrator"
+      return this.store.user && this.store.userData && this.store.userData.role == "Administrator"
     }
   },
   methods: {

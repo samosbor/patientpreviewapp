@@ -2,8 +2,7 @@
   <v-card
     :loading="loading"
     width="100%"
-    color="primary"
-    dark
+    elevation="24"
   >
     <v-card-title>
       Search For a Potential Patient
