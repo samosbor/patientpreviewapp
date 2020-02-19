@@ -1,5 +1,5 @@
 <template>
-  <v-card width="100%" elevation="24">
+  <v-card v-if="allLawsuits.length > 1" width="100%" elevation="24">
     <v-list v-model="matches" rounded>
       <v-subheader>Possible Matches</v-subheader>
         <v-list-item
