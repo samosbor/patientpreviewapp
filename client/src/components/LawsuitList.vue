@@ -67,7 +67,7 @@ export default {
     },
     filterStates(matchesInProgress) {
       return matchesInProgress.filter(lawsuit => {
-        if (lawsuit.state && this.filters.state.includes(lawsuit.state.toLowerCase())) {
+        if (lawsuit.State && this.filters.state.includes(lawsuit.State.toLowerCase())) {
           return lawsuit
         }
       })
