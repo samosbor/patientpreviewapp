@@ -9,7 +9,7 @@ module.exports = async function (context, myBlob) {
             var row = fixRow(element)
             bulkRows.push(row)
         });
-        let sql = `INSERT INTO testlawsuit(CaseName, CauseOfAction, Plaintiff, Defendant, CaseNumber, DateFiled, Court, PresidingJudge, ReferringJudge, NatureOfSuit, CauseOfActionNumber, JuryDemandedBy, County, State) VALUES ?`
+        let sql = `INSERT INTO lawsuit(CaseName, CauseOfAction, Plaintiff, Defendant, CaseNumber, DateFiled, Court, PresidingJudge, ReferringJudge, NatureOfSuit, CauseOfActionNumber, JuryDemandedBy, County, State) VALUES ?`
         conn.query(sql, [bulkRows], (err, results, fields) => {
             if(err) throw err
             context.log('Successfully inserted '+ results.affectedRows +'');
