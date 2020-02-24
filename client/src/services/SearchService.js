@@ -9,9 +9,18 @@ export default {
       },
       {
       headers: {
-          Authorization: `Bearer ${accessToken}`
+        Authorization: `Bearer ${accessToken}`
       }
     });
     return res.data;
+  },
+  async getLawsuit(accessToken, id) {
+    let res = await axios.get(base + "/lawsuit/" + id,
+      {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    });
+    return res.data[0];
   }
 }

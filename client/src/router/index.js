@@ -36,6 +36,13 @@ export default new Router({
       path: '/signup',
       name: 'signup',
       component: () => import('../views/Signup.vue'),
-    }
+    },
+    {
+      path: '/lawsuit/:id',
+      name: 'lawsuit',
+      component: () => import('../views/Lawsuit.vue'),
+      beforeEnter: authGuard
+    },
+
   ]
 })

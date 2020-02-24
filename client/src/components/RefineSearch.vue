@@ -10,26 +10,19 @@
 
     <v-divider></v-divider>
 
-    <v-list-group
-      dense
-      nav
-    >
-      <template v-slot:activator>
-        <v-list-item-content>
-          <v-list-item-title>State</v-list-item-title>
-        </v-list-item-content>
-      </template>
-
-      <v-list-item
-          v-for="(state, i) in states"
-          :key="i"
-          dense
-        >
-          <v-checkbox v-model="selectedStates" :value="state.lname" @change="emitFilters()"></v-checkbox>
-          <v-list-item-title v-text="state.name"></v-list-item-title>
-      </v-list-item>
-
-    </v-list-group>
+      <v-select
+        v-model="selectedStates"
+        :items="states"
+        item-text="name"
+        item-value="lname"
+        label="Refine By State"
+        class="pa-4"
+        multiple
+        persistent-hint
+        single-line
+        hint="States"
+        @change="emitFilters()"
+      ></v-select>
   </v-card>
 </template>
 

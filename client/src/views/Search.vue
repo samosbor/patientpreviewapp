@@ -1,16 +1,28 @@
 <template>
   <v-container fluid>
+    <div id="stripes" class="ma-n3">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
     <v-row class="px-5">
       <v-col cols="3" class="pa-5">
         <RefineSearch @filterschanged="setFilters($event)"/>
       </v-col>
-      <v-col class="pa-5 px-8">
+      <v-col cols="9" class="pa-5 px-8">
         <v-row>
-          <SearchBox @searchresults="setLawsuits($event)"/>
+          <SearchBox @searchresults="setResults($event)"/>
         </v-row>
         <v-row class="py-5">
-          <LawsuitList 
-            :allLawsuits="lawsuits"
+          <SearchResults 
+            :allResults="results"
             :filters="filters"/>
         </v-row>
       </v-col>
@@ -21,7 +33,7 @@
 
 <script>
 import SearchBox from '@/components/SearchBox'
-import LawsuitList from '@/components/LawsuitList'
+import SearchResults from '@/components/SearchResults'
 import RefineSearch from '@/components/RefineSearch'
 import { store } from '@/store/store'
 import UserService from '@/services/UserService'
@@ -29,11 +41,11 @@ export default {
   name: 'Search',
   components: {
     SearchBox,
-    LawsuitList,
+    SearchResults,
     RefineSearch
   },
   data: () => ({
-    lawsuits: [],
+    results: [],
     filters: {}
   }),
   created() {
@@ -41,8 +53,8 @@ export default {
     this.setUp()
   },
   methods: {
-    setLawsuits(event) {
-      this.lawsuits = event
+    setResults(event) {
+      this.results = event
     },
     setFilters(event) {
       this.filters = event
@@ -60,3 +72,44 @@ export default {
   }
 }
 </script>
+<style scoped>
+#stripes {
+  transform: skewY(-12deg);
+  transform-origin: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid: repeat(8, 80px) / repeat(10, 1fr);
+}
+
+#stripes :nth-child(1) {
+  grid-area: 1 / span 3 / auto / auto;
+  background: #1976D2;
+}
+
+#stripes :nth-child(2) {
+  grid-area: 4 / span 2 / auto / -1;
+  background: #1976D2;
+}
+
+#stripes :nth-child(3) {
+  grid-area: 7 / span 3 / auto / -1;
+  background: #1976D2;
+}
+
+#stripes :nth-child(4) {
+  grid-area: 8 / span 2 / auto / -1;
+  background: #1976D2;
+}
+
+#stripes :nth-child(5) {
+  grid-area: 6 / span 2 / auto / auto;
+  background: #1976D2;
+}
+
+#stripes :nth-child(6) {
+  grid-area: 7 / span 4 / auto / auto;
+  background: #1976D2;
+}
+</style>
