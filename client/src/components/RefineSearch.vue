@@ -2,32 +2,31 @@
   <v-card elevation="24">
     <v-list-item>
       <v-list-item-content>
-        <v-list-item-title>
-          Refine Your Search
-        </v-list-item-title>
+        <v-list-item-title>Refine Your Search</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
 
     <v-divider></v-divider>
 
-      <v-select
-        v-model="selectedStates"
-        :items="states"
-        item-text="name"
-        item-value="lname"
-        label="Refine By State"
-        class="pa-4"
-        multiple
-        persistent-hint
-        single-line
-        hint="States"
-        @change="emitFilters()"
-      ></v-select>
+    <v-select
+      v-model="selectedStates"
+      :items="states"
+      item-text="name"
+      item-value="lname"
+      label="Refine By State"
+      class="pa-4"
+      multiple
+      persistent-hint
+      single-line
+      hint="States"
+      @change="emitFilters()"
+    ></v-select>
   </v-card>
 </template>
 
 <script>
-import statesJson from '../assets/states'
+import statesJson from '../assets/states.json'
+
 export default {
   name: 'RefineSearch',
   data: () => ({
@@ -36,7 +35,7 @@ export default {
   }),
   computed: {
     filters() {
-      var filters = {
+      const filters = {
         state: this.selectedStates
       }
       return filters
@@ -49,6 +48,5 @@ export default {
       })
     }
   }
-  
 }
 </script>

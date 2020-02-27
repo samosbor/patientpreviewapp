@@ -1,25 +1,25 @@
 <template>
   <v-app>
-    <Header/>
+    <Header />
     <v-content>
       <keep-alive>
-        <router-view :key="$route.fullPath"></router-view> 
+        <router-view :key="$route.fullPath"></router-view>
       </keep-alive>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import Header from './components/Header';
+import Header from './components/Header.vue'
 
 export default {
   name: 'App',
   components: {
-    Header,
+    Header
   },
 
   data: () => ({
     //
-  }),
-};
+  })
+}
 </script>

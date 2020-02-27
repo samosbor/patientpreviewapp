@@ -1,9 +1,5 @@
 <template>
-  <v-card
-    :loading="loading"
-    width="100%"
-    elevation="24"
-  >
+  <v-card :loading="loading" width="100%" elevation="24">
     <v-card-title>
       Search For a Potential Patient
     </v-card-title>
@@ -22,25 +18,23 @@
 </template>
 <script>
 import SearchService from '../services/SearchService'
+
 export default {
   name: 'SearchBox',
   data: () => ({
     loading: false,
-    name: ""
+    name: ''
   }),
   methods: {
     async makeSearch() {
-      this.loading = "warning"
+      this.loading = 'warning'
       const accessToken = await this.$auth.getTokenSilently()
 
-      SearchService.search(accessToken, this.name)
-      .then((result) => {
+      SearchService.search(accessToken, this.name).then(result => {
         this.$emit('searchresults', result)
         this.loading = false
       })
     }
-    
   }
 }
-
 </script>

@@ -15,8 +15,7 @@
 <script>
 export default {
   name: 'DiagonalStripes',
-  data: () => ({
-  })
+  data: () => ({})
 }
 </script>
 
@@ -33,31 +32,31 @@ export default {
 
 #stripes :nth-child(1) {
   grid-area: 1 / span 3 / auto / auto;
-  background: #1976D2;
+  background: #1976d2;
 }
 
 #stripes :nth-child(2) {
   grid-area: 4 / span 2 / auto / -1;
-  background: #1976D2;
+  background: #1976d2;
 }
 
 #stripes :nth-child(3) {
   grid-area: 7 / span 3 / auto / -1;
-  background: #1976D2;
+  background: #1976d2;
 }
 
 #stripes :nth-child(4) {
   grid-area: 8 / span 2 / auto / -1;
-  background: #1976D2;
+  background: #1976d2;
 }
 
 #stripes :nth-child(5) {
   grid-area: 6 / span 2 / auto / auto;
-  background: #1976D2;
+  background: #1976d2;
 }
 
 #stripes :nth-child(6) {
   grid-area: 7 / span 4 / auto / auto;
-  background: #1976D2;
+  background: #1976d2;
 }
 </style>

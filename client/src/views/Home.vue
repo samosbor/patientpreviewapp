@@ -17,16 +17,17 @@
 
         <p class="subheading font-weight-regular">
           For help and collaboration with other Vuetify developers,
-          <br>please join our online
-          <a
-            href="https://community.vuetifyjs.com"
-            target="_blank"
-          >Discord Community</a>
+          <br />please join our online
+          <a href="https://community.vuetifyjs.com" target="_blank"
+            >Discord Community</a
+          >
         </p>
       </v-col>
       <v-col>
         <div>
-          <v-btn v-if="!$auth.isAuthenticated" @click="login">Sign Up to Browse Events</v-btn>
+          <v-btn v-if="!$auth.isAuthenticated" @click="login"
+            >Sign Up to Browse Events</v-btn
+          >
           <h3 v-if="$auth.isAuthenticated">Welcome, {{ $auth.user.name }}!</h3>
         </div>
       </v-col>
@@ -36,13 +37,11 @@
 <script>
 export default {
   name: 'home',
-  components: {
-
-  },
+  components: {},
   methods: {
     // Log the user in
     login() {
-      this.$auth.loginWithRedirect();
+      this.$auth.loginWithRedirect()
     }
   }
 }

@@ -2,24 +2,27 @@
   <v-container>
     <v-row>
       <v-col>
-        <ProfileBasicInfo v-if="store" :user="store.user" :userData="store.userData" />
+        <ProfileBasicInfo
+          v-if="store"
+          :user="store.user"
+          :userData="store.userData"
+        />
       </v-col>
     </v-row>
   </v-container>
 </template>
 <script>
 import { store } from '@/store/store'
-import ProfileBasicInfo from '../components/ProfileBasicInfo'
+import ProfileBasicInfo from '@/components/ProfileBasicInfo.vue'
+
 export default {
   name: 'Profile',
   components: {
     ProfileBasicInfo
   },
   data: () => ({
-    store: store
+    store
   }),
-  methods: {
-   
-  }
+  methods: {}
 }
 </script>
