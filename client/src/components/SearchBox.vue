@@ -28,12 +28,13 @@ export default {
   methods: {
     async makeSearch() {
       this.loading = 'warning'
-      const accessToken = await this.$auth.getTokenSilently()
-
-      SearchService.search(accessToken, this.name).then(result => {
-        this.$emit('searchresults', result)
-        this.loading = false
-      })
+      if(this.$auth.isAuthenticated) {
+        const accessToken = await this.$auth.getTokenSilently()
+        SearchService.search(accessToken, this.name).then(result => {
+          this.$emit('searchresults', result)
+          this.loading = false
+        })
+      }
     }
   }
 }

@@ -131,7 +131,9 @@ export const useAuth0 = ({
         // Initialize our internal authentication state
         this.isAuthenticated = await this.auth0Client.isAuthenticated()
         this.user = await this.auth0Client.getUser()
-        await this.setUpUserData()
+        if(this.isAuthenticated) {
+          await this.setUpUserData()
+        }
         this.loading = false
       }
     },
