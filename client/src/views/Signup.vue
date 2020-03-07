@@ -9,21 +9,32 @@
           <span class="font-weight-light">USD/Billed Monthly</span>
         </v-card>
       </v-col>
-      <v-col cols="4">
-        <v-card class="pa-5">
+      <v-col cols="6">
+        <v-card class="pa-5 ma-5">
+          <v-text-field v-model="email" label="Email"></v-text-field>
+          <v-row>
+            <v-text-field class="mx-3" v-model="name" label="Name"></v-text-field>
+            <v-text-field class="mx-3" v-model="company" label="Company"></v-text-field>
+          </v-row>
+          <v-text-field
+            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :rules="[rules.required, rules.min]"
+            :type="showPassword ? 'text' : 'password'"
+            label="Password"
+            hint="At least 8 characters"
+            v-model="password"
+            class="input-group--focused"
+            @click:append="showPassword = !showPassword"
+          ></v-text-field>
           <Card
+            class="my-5"
             :class="{ complete }"
             :stripe="testKey"
             @change="complete = $event.complete"
           />
-          <button class="pay-with-stripe" @click="pay" :disabled="!complete">
+          <v-btn class="pay-with-stripe" @click="pay" :disabled="!complete">
             Pay with credit card
-          </button>
-        </v-card>
-      </v-col>
-      <v-col cols="4">
-        <v-card class="pa-5">
-          <h1 class="text-center">Enterprise</h1>
+          </v-btn>
         </v-card>
       </v-col>
     </v-row>
@@ -31,12 +42,13 @@
 </template>
 <script>
 import { store } from '@/store/store'
-import { Card } from 'vue-stripe-elements-plus'
+import { Card, createToken } from 'vue-stripe-elements-plus'
 import DiagonalStripes from '@/components/ui/DiagonalStripes'
 import { testKey } from '../../stripeConfig.json'
+import UserService from '../services/UserService'
 
 export default {
-  name: 'Admin',
+  name: 'Signup',
   components: {
     DiagonalStripes,
     Card
@@ -45,9 +57,31 @@ export default {
     store,
     testKey,
     submitted: false,
-    status: ''
+    status: '',
+    complete: false,
+    email: '',
+    name: '',
+    company: '',
+    password: '',
+    planId: '',
+    showPassword: false,
+    rules: {
+      required: value => !!value || 'Required.',
+      min: v => v.length >= 8 || 'Min 8 characters',
+    },
   }),
-  mounted() {},
-  methods: {}
+  mounted() {
+    this.planId = this.$route.params.planId
+  },
+  methods: {
+    pay() {
+      createToken().then(data => {
+        UserService.attemptSignup(this.email, this.name, this.company, this.password, data.token.id, this.planId)
+        .then(response => {
+
+        })
+      })
+    }
+  }
 }
 </script>

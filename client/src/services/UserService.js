@@ -48,5 +48,24 @@ export default {
       }
     )
     return res.data
+  },
+  async attemptSignup(email, name, company, password, source, planId) {
+    const res = await axios.post(
+      `${base}/attemptSignup`,
+      {
+        email: email,
+        name: name,
+        company: company,
+        password: password,
+        source: source,
+        planId: planId
+      },
+      {
+        headers: {
+          Authorization: 'application/json'
+        }
+      }
+    )
+    return res.data
   }
 }

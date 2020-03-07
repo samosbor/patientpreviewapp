@@ -33,7 +33,7 @@ export default new Router({
       beforeEnter: authGuard
     },
     {
-      path: '/signup',
+      path: '/signup/:planId',
       name: 'signup',
       component: () => import('../views/Signup.vue')
     },
@@ -42,6 +42,6 @@ export default new Router({
       name: 'lawsuit',
       component: () => import('../views/Lawsuit.vue'),
       beforeEnter: authGuard
-    }
+    },
   ]
 })

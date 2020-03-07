@@ -36,12 +36,18 @@
 </template>
 <script>
 import { store } from '@/store/store'
+import UserService from '@/services/UserService.js'
 
 export default {
-  components: {},
+  name: 'Header',
   data: () => ({
     store
   }),
+  mounted: function () {
+    // this.$nextTick(function() {
+    //   this.setUpUserData()
+    // })
+  },
   computed: {
     admin() {
       return (
@@ -54,7 +60,13 @@ export default {
   methods: {
     logout() {
       this.$auth.logout()
-    }
+    },
+    async setUpUserData() {
+      const accessToken = await this.$auth.getTokenSilently()
+      UserService.getUserData(accessToken, this.user.sub).then((result) => {
+        store.userData = result
+      })
+    },
   }
 }
 </script>

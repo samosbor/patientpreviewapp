@@ -1,4 +1,6 @@
 const conn = require('../db/db')
+const auth = require('../auth')
+const axios = require('axios')
 
 module.exports = {
 
@@ -30,5 +32,46 @@ module.exports = {
         res.send(results);
       }
     )
+  },
+  createUser: async (email, name, password, res) => { //creates user in Auth0
+    //get management token to 
+    const user_id = await axios.post('https://' + auth.authConfig.domain + '/oauth/token',
+    {
+      client_id: auth.authConfig.client_id,
+      client_secret: auth.authConfig.client_secret,
+      audience: auth.authConfig.management_audience,
+      grant_type: "client_credentials"
+    },
+    {
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+    .then(authResponse => {
+      const accessToken = authResponse.data.access_token
+      return axios.post('https://' + auth.authConfig.domain + '/api/v2/users',
+      {
+        email: email,
+        name: name,
+        password: password,
+        connection: "Username-Password-Authentication"
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+      .then(userResponse => {
+        return userResponse.data.user_id
+      })
+      .catch(err =>{
+        throw err
+      })
+    })
+    .catch(err => {
+      res.status(err.response.data.statusCode).send(err.response.data)
+      throw err
+    })
+    return user_id
   }
 }

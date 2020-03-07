@@ -50,6 +50,7 @@ export const useAuth0 = ({
         }
 
         this.user = await this.auth0Client.getUser()
+        store.user = this.user
         this.isAuthenticated = true
       },
       /** Handles the callback when logging in using a redirect */
@@ -58,6 +59,7 @@ export const useAuth0 = ({
         try {
           await this.auth0Client.handleRedirectCallback()
           this.user = await this.auth0Client.getUser()
+          store.user = this.user
           this.isAuthenticated = true
         } catch (e) {
           this.error = e
@@ -78,29 +80,13 @@ export const useAuth0 = ({
         return this.auth0Client.getTokenSilently(o)
       },
       /** Gets the access token using a popup window */
-
       getTokenWithPopup(o) {
         return this.auth0Client.getTokenWithPopup(o)
       },
       /** Logs the user out and removes their session on the authorization server */
       logout(o) {
         return this.auth0Client.logout(o)
-      },
-      // ################################################################
-      // HELPER MADE BY SAM FOR DATA IDK IF THIS IS SUPPOSED TO GO HERE
-      // ################################################################
-      async setUpUserData() {
-        const accessToken = await this.getTokenSilently()
-        if (Object.entries(store.user).length === 0) {
-          if (!this.user) this.user = await this.auth0Client.getUser()
-          store.user = this.user
-        }
-        if (Object.entries(store.userData).length === 0) {
-          UserService.getUserData(accessToken, this.user.sub).then((result) => {
-            store.userData = result
-          })
-        }
-      },
+      }
     },
     /** Use this lifecycle method to instantiate the SDK client */
     async created() {
@@ -131,9 +117,7 @@ export const useAuth0 = ({
         // Initialize our internal authentication state
         this.isAuthenticated = await this.auth0Client.isAuthenticated()
         this.user = await this.auth0Client.getUser()
-        if(this.isAuthenticated) {
-          await this.setUpUserData()
-        }
+        store.user = this.user
         this.loading = false
       }
     },
