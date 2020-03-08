@@ -1,6 +1,7 @@
 const conn = require('../db/db')
 const auth = require('../auth')
 const axios = require('axios')
+const { v4: uuid } = require('uuid')
 
 module.exports = {
 
@@ -33,8 +34,8 @@ module.exports = {
       }
     )
   },
-  createUser: async (email, name, password, res) => { //creates user in Auth0
-    //get management token to 
+  createAuth0User: async (email, name, password, res) => { //creates user in Auth0
+    //get management token
     const user_id = await axios.post('https://' + auth.authConfig.domain + '/oauth/token',
     {
       client_id: auth.authConfig.client_id,
@@ -47,7 +48,7 @@ module.exports = {
         'content-type': 'application/json'
       }
     })
-    .then(authResponse => {
+    .then(authResponse => { //create user
       const accessToken = authResponse.data.access_token
       return axios.post('https://' + auth.authConfig.domain + '/api/v2/users',
       {
@@ -73,5 +74,41 @@ module.exports = {
       throw err
     })
     return user_id
+  },
+  createUser: async (name, email, auth0Id) => {
+    const id = uuid()
+    let sql = `INSERT INTO user
+      (id,
+      name,
+      email,
+      auth0_id)
+      VALUES
+      (?, ?, ?, ?)`
+    const rows = await conn.promise().query(sql, [id, name, email, auth0Id])
+      .then(([rows,fields]) => {
+        return rows
+      })
+      .catch(err => {
+        throw err
+      })
+    return id
+  },
+  createMembership: async(userId, accountId, role) => {
+    const id = uuid()
+    let sql = `INSERT INTO membership
+      (id,
+      relatedUserId,
+      relatedAccountId,
+      role)
+      VALUES
+      (?, ?, ?, ?)`
+    const rows = await conn.promise().query(sql, [id, userId, accountId, role])
+      .then(([rows,fields]) => {
+        return rows
+      })
+      .catch(err => {
+        throw err
+      })
+    return id
   }
 }

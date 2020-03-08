@@ -11,7 +11,7 @@
       </v-col>
       <v-col cols="6">
         <v-card class="pa-5 ma-5">
-          <v-text-field v-model="email" label="Email"></v-text-field>
+          <v-text-field v-model="email" :rules="[rules.email]" label="Email"></v-text-field>
           <v-row>
             <v-text-field class="mx-3" v-model="name" label="Name"></v-text-field>
             <v-text-field class="mx-3" v-model="company" label="Company"></v-text-field>
@@ -68,6 +68,7 @@ export default {
     rules: {
       required: value => !!value || 'Required.',
       min: v => v.length >= 8 || 'Min 8 characters',
+      email: v => /.+@.+/.test(v) || "E-mail must be valid"
     },
   }),
   mounted() {

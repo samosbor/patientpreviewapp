@@ -2,6 +2,7 @@ const auth = require('../auth')
 const search = require('../controllers/searchController')
 const lawsuit = require('../controllers/lawsuitController')
 const user = require('../controllers/userController')
+const account = require('../controllers/accountController')
 const payment = require('../controllers/paymentController')
 
 module.exports = function(app) {
@@ -34,12 +35,17 @@ module.exports = function(app) {
     const planId = req.body.planId
 
     try{
-      const userId = await user.createUser(email, name, password, res)
-      const customerId = await payment.createCustomer(email, source, res)
+      const customerId = await payment.createCustomer(email, source, company, res)
       const subscription = await payment.subscribeCustomerToPlan(customerId, planId, res)
+      const auth0Id = await user.createAuth0User(email, name, password, res)
+      const userId = await user.createUser(name, email, auth0Id)
+      const accountId = await account.createAccount(company, customerId)
+      const membershipId = await user.createMembership(userId, accountId, "Administrator")
+
       res.send(email)
     } catch(err) {
       console.log(err)
+      res.status(400).send(err)
     }
   })
 }

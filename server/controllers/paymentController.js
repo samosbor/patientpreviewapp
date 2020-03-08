@@ -2,9 +2,10 @@ const conn = require('../db/db')
 const stripe = require("stripe")("sk_test_WIJW1ylS8sqogFxmKA9ltsmL00e11EvfNU");
 
 module.exports = {
-  createCustomer: async (email, source, res) => {
+  createCustomer: async (email, source, company, res) => {
     const customerId = await stripe.customers.create({
         email: email,
+        name: company,
         source: source,
     })
     .then(customer => {
