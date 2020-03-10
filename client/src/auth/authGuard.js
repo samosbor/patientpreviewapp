@@ -6,6 +6,9 @@ export const authGuard = (to, from, next) => {
   const fn = () => {
     // If the user is authenticated, continue with the route
     if (authService.isAuthenticated) {
+      if (!authService.user.app_metadata || authService.user.app_metadata.access === 'no_access') {
+        location.replace('https://www.patientpreviewapp.com/signup');  
+      }
       return next()
     }
     // Otherwise, log in
