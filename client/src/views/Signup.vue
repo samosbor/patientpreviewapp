@@ -82,7 +82,6 @@ export default {
       createToken().then(data => {
         UserService.attemptSignup(this.email, this.name, this.company, this.password, data.token.id, this.planId)
         .then(response => {
-          console.log(response)
           this.store.user = {email: this.email}
           router.push('/login')
         })
