@@ -5,7 +5,6 @@
         <ProfileBasicInfo
           v-if="store"
           :user="store.user"
-          :userData="store.userData"
         />
       </v-col>
     </v-row>

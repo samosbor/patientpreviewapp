@@ -2,14 +2,14 @@
   <v-container>
     <v-row>
       <v-col>
-        <v-card v-if="store.userData" width="50%" class="pa-5">
+        <v-card v-if="store.user" width="50%" class="pa-5">
           <h1 class="text-center">Admin Settings</h1>
           <div class="subheading pt-2">Company</div>
-          <p class="font-weight-light">{{ store.userData.companyName }}</p>
+          <p class="font-weight-light">{{ store.user.companyName }}</p>
           <div class="subheading pt-2">Subscription Level</div>
-          <p class="font-weight-light">{{ store.userData.planLevel }}</p>
+          <p class="font-weight-light">{{ store.user.planLevel }}</p>
           <div class="subheading pt-2">Role</div>
-          <p class="font-weight-light">{{ store.userData.role }}</p>
+          <p class="font-weight-light">{{ store.user.role }}</p>
         </v-card>
       </v-col>
     </v-row>
@@ -55,10 +55,10 @@ export default {
   },
   methods: {
     async setUp() {
-      const accessToken = await this.$auth.getTokenSilently()
+      const accessToken = this.$cookies.get('token')
       UserService.getCompanyUsers(
         accessToken,
-        this.store.userData.companyName
+        this.store.user.companyName
       ).then(response => {
         this.companyUsers = response
       })

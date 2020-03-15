@@ -1,6 +1,4 @@
 const conn = require('../db/db')
-const auth = require('../auth')
-const axios = require('axios')
 const { v4: uuid } = require('uuid')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
@@ -40,80 +38,6 @@ module.exports = {
       }
     )
   },
-  createAuth0User: async (email, name, password, res) => { //creates user in Auth0
-    //get management token
-    const user_id = await axios.post('https://' + auth.authConfig.domain + '/oauth/token',
-    {
-      client_id: auth.authConfig.client_id,
-      client_secret: auth.authConfig.client_secret,
-      audience: auth.authConfig.management_audience,
-      grant_type: "client_credentials"
-    },
-    {
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-    .then(authResponse => { //create user
-      const accessToken = authResponse.data.access_token
-      return axios.post('https://' + auth.authConfig.domain + '/api/v2/users',
-      {
-        email: email,
-        name: name,
-        password: password,
-        connection: "Username-Password-Authentication"
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      })
-      .then(userResponse => {
-        return userResponse.data.user_id
-      })
-      .catch(err =>{
-        throw err
-      })
-    })
-    .catch(err => {
-      res.status(err.response.data.statusCode).send(err.response.data)
-      throw err
-    })
-    return user_id
-  },
-  giveAuth0Access: async (id) => {
-    await axios.post('https://' + auth.authConfig.domain + '/oauth/token',
-    {
-      client_id: auth.authConfig.client_id,
-      client_secret: auth.authConfig.client_secret,
-      audience: auth.authConfig.management_audience,
-      grant_type: "client_credentials"
-    },
-    {
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-    .then(authResponse => { //add app_metadata
-      const accessToken = authResponse.data.access_token
-      return axios.patch('https://' + auth.authConfig.domain + '/api/v2/users/' + id,
-      {
-        app_metadata: {access: "full"}
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      })
-      .catch(err =>{
-        throw err
-      })
-    })
-    .catch(err => {
-      res.status(err.response.data.statusCode).send(err.response.data)
-      throw err
-    })
-  },
   createUser: async (name, email) => {
     let sql1 = `SELECT * FROM user WHERE LOWER(email) = LOWER(?)`
     user = await conn.promise().query(sql1, [email])
@@ -121,7 +45,10 @@ module.exports = {
       return rows
     })
     if (user.length > 0) {
-      throw "User already exists"
+      var err = new Error("HTTP status code: 409")
+      err.response = "User already exists"
+      err.status = "409"
+      throw err
     }
 
     const id = uuid()
@@ -189,10 +116,11 @@ module.exports = {
     .then(([rows,fields]) => {
       return rows
     })
-    if (user.length < 1) {
+    if (user === []) {
       res.status(401).send({
         msg: 'Username or password is incorrect'
       })
+      throw 'Username or password is incorrect'
     }
     bcrypt.compare(req.body.password, user[0]['passwordHash'])
     .then(result => {

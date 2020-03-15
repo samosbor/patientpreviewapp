@@ -35,6 +35,7 @@
           <v-btn class="pay-with-stripe" @click="pay" :disabled="!complete">
             Pay with credit card
           </v-btn>
+          <p class="pt-5 pl-5 red--text" v-if="msg">{{ msg }}</p>
         </v-card>
       </v-col>
     </v-row>
@@ -46,6 +47,7 @@ import { Card, createToken } from 'vue-stripe-elements-plus'
 import DiagonalStripes from '@/components/ui/DiagonalStripes'
 import { testKey } from '../../stripeConfig.json'
 import UserService from '../services/UserService'
+import router from '../router'
 
 export default {
   name: 'Signup',
@@ -70,6 +72,7 @@ export default {
       min: v => v.length >= 8 || 'Min 8 characters',
       email: v => /.+@.+/.test(v) || "E-mail must be valid"
     },
+    msg: ''
   }),
   mounted() {
     this.planId = this.$route.params.planId
@@ -79,7 +82,12 @@ export default {
       createToken().then(data => {
         UserService.attemptSignup(this.email, this.name, this.company, this.password, data.token.id, this.planId)
         .then(response => {
-
+          console.log(response)
+          this.store.user = {email: this.email}
+          router.push('/login')
+        })
+        .catch(err => {
+          this.msg = err.response.data.response
         })
       })
     }

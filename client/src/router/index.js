@@ -43,5 +43,10 @@ export default new Router({
       component: () => import('../views/Lawsuit.vue'),
       beforeEnter: authGuard
     },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/Login.vue')
+    },
   ]
 })

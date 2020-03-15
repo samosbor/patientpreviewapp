@@ -23,14 +23,6 @@
           >
         </p>
       </v-col>
-      <v-col>
-        <div>
-          <v-btn v-if="!$auth.isAuthenticated" @click="login"
-            >Sign Up to Browse Events</v-btn
-          >
-          <h3 v-if="$auth.isAuthenticated">Welcome, {{ $auth.user.name }}!</h3>
-        </div>
-      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -39,10 +31,6 @@ export default {
   name: 'home',
   components: {},
   methods: {
-    // Log the user in
-    login() {
-      this.$auth.loginWithRedirect()
-    }
   }
 }
 </script>

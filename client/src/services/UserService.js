@@ -67,5 +67,22 @@ export default {
       }
     )
     return res.data
+  },
+  async login(email, password) {
+    const res = await axios.post(
+      `${base}/login`,
+      {
+        email,
+        password
+      }
+    )
+    .catch(err => {
+      throw err
+    })
+    return res.data
+  },
+  logout(){
+    $cookies.remove('token')
+    window.location.href = 'https://www.patientpreviewapp.com'
   }
 }

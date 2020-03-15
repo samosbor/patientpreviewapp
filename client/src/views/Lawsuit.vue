@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <v-card v-if="store.userData" width="100%" class="pa-5">
+        <v-card width="100%" class="pa-5">
           <h1 class="text-center">Lawsuit Details</h1>
 
           <v-list v-if="lawsuitDetails" v-model="lawsuitDetails" rounded>
@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     async getLawsuit() {
-      const accessToken = await this.$auth.getTokenSilently()
+      const accessToken = this.$cookies.get('token')
       SearchService.getLawsuit(accessToken, this.id).then(response => {
         this.lawsuit = response
       })

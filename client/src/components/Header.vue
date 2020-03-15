@@ -10,10 +10,10 @@
     </v-toolbar-title>
     <v-spacer></v-spacer>
 
-    <v-btn v-if="$auth.isAuthenticated" dark outlined @click="logout()"
+    <v-btn v-if="isAuthenticated" dark outlined @click="logout()"
       >Logout</v-btn
     >
-    <v-menu offset-y v-if="$auth.isAuthenticated">
+    <v-menu offset-y v-if="isAuthenticated">
       <template v-slot:activator="{ on }">
         <v-btn color="white" icon v-on="on">
           <v-icon>mdi-menu</v-icon>
@@ -43,30 +43,27 @@ export default {
   data: () => ({
     store
   }),
-  mounted: function () {
-    // this.$nextTick(function() {
-    //   this.setUpUserData()
-    // })
-  },
   computed: {
     admin() {
       return (
         this.store.user &&
-        this.store.userData &&
-        this.store.userData.role === 'Administrator'
+        this.store.user.role === 'Administrator'
       )
+    },
+    isAuthenticated() {
+      return this.$cookies.isKey('token')
     }
   },
   methods: {
     logout() {
-      this.$auth.logout()
+      UserService.logout()
     },
-    async setUpUserData() {
-      const accessToken = await this.$auth.getTokenSilently()
-      UserService.getUserData(accessToken, this.user.sub).then((result) => {
-        store.userData = result
-      })
-    },
+    // async setUpUserData() {
+    //   const accessToken = this.$cookies.get("token")
+    //   UserService.getUserData(accessToken, this.user.sub).then((result) => {
+    //     store.userData = result
+    //   })
+    // },
   }
 }
 </script>
