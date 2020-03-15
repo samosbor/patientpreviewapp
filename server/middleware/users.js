@@ -17,7 +17,7 @@ module.exports = {
         token,
         'SECRETKEY'
       );
-      req.userData = decoded;
+      req.tokenData = decoded;
       next();
     } catch (err) {
       return res.status(401).send({

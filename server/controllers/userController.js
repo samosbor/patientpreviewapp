@@ -8,16 +8,21 @@ module.exports = {
   getUserData: (req, res) => { 
     let sql = `SELECT a.name as "companyName",
       a.planLevel as "planLevel",
-      m.role as "role"
-      FROM account a
-      INNER JOIN user u
-      INNER JOIN membership m
+      m.role as "role",
+      u.name as "name",
+      u.email as "email"
+      FROM user u
+      INNER JOIN membership m ON u.id = m.relatedUserId
+      INNER JOIN account a ON m.relatedAccountId = a.id
       WHERE u.id = ?;`
 
-    conn.query(sql, [req.body.id],
+    conn.query(sql, [req.tokenData.userId],
       (err, results, fields) => {
-        if (err) res.status(400);
-        res.send(results);
+        if (err) {
+          console.log(err)
+          res.status(400)
+        }
+        res.send(results)
       }
     )
   },
