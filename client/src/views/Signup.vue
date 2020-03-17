@@ -30,7 +30,7 @@
           <Card
             class="my-5"
             :class="{ complete }"
-            :stripe="testKey"
+            :stripe="desiredStripeKey"
             @change="complete = $event.complete"
           />
           <v-btn class="pay-with-stripe" @click="pay" :disabled="!complete">Pay with credit card</v-btn>
@@ -52,7 +52,7 @@
 import { store } from '@/store/store'
 import { Card, createToken } from 'vue-stripe-elements-plus'
 import DiagonalStripes from '@/components/ui/DiagonalStripes'
-import { testKey } from '../../stripeConfig.json'
+import { stripeKey, testKey } from '../../stripeConfig.json'
 import UserService from '../services/UserService'
 import SignupCart from '../components/SignupCart'
 
@@ -88,6 +88,14 @@ export default {
     this.$nextTick(() => {
       this.$refs.email.focus()
     })
+  },
+  computed: {
+    desiredStripeKey() {
+      let key = process.env.NODE_ENV === 'production'
+        ? stripeKey
+        : testKey
+      return key
+    }
   },
   methods: {
     async pay() {

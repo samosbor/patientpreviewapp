@@ -1,5 +1,9 @@
 const conn = require('../db/db')
-const stripe = require("stripe")("sk_test_WIJW1ylS8sqogFxmKA9ltsmL00e11EvfNU");
+const dotenv = require('dotenv')
+dotenv.config()
+const stripeKey = process.env.NODE_ENV === 'production' ? process.env.STRIPE_KEY : process.env.STRIPE_TEST_KEY
+const stripe = require("stripe")(stripeKey)
+
 
 module.exports = {
   createCustomer: async (email, source, company, res) => {
