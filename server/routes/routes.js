@@ -75,9 +75,12 @@ module.exports = function(app) {
     }
   })
 
-  app.get('/secret-route', userMiddleware.isLoggedIn, (req, res, next) => {
-    console.log(req.userData);
-    res.send('This is the secret content. Only logged in users can see that!');
+  app.post("/getPlan", async (req, res) => {
+    payment.getPlan(req, res)
+  })
+
+  app.post("/getProduct", async (req, res) => {
+    payment.getProduct(req, res)
   })
 
 }

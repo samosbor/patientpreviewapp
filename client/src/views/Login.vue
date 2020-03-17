@@ -3,14 +3,9 @@
     <DiagonalStripes />
     <v-row>
       <v-col cols="5" class="mx-12">
-        <v-card class="pa-5 ma-5">
-          <h1 class="pb-5">
-            <!-- <v-img max-width="50px"
-              src="https://www.patientpreviewapp.com/wp-content/uploads/2020/03/cropped-circle-logo.png">
-            </v-img> -->
-            Login
-          </h1>
-          <v-text-field outlined v-model="email" label="Email"></v-text-field>
+        <v-card class="pa-5 ma-5" elevation="24">
+          <h1 class="pb-5">Login</h1>
+          <v-text-field outlined v-model="email" ref="email" label="Email"></v-text-field>
           <v-text-field
             outlined
             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
@@ -19,18 +14,18 @@
             v-model="password"
             class="input-group--focused"
             @click:append="showPassword = !showPassword"
+            v-on:keyup.enter="login()"
           ></v-text-field>
-          <v-btn 
-            large
-            block
-            color="primary"
-            @click="login()">
-            Login
-          </v-btn>
+          <v-btn large block color="primary" @click="login()">Login</v-btn>
           <p class="pt-5 pl-5 red--text" v-if="msg">{{ msg }}</p>
         </v-card>
       </v-col>
-      <v-col cols="7">
+      <v-spacer />
+      <v-col>
+        <v-card class="pa-5 ma-5" elevation="10">
+          <h1>Not a member yet?</h1>
+          <v-btn class="mt-5" @click="signup()">Sign up now!</v-btn>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
@@ -54,20 +49,28 @@ export default {
     msg: ''
   }),
   created() {
-    if(this.store && this.store.user.email) {
+    if (this.store && this.store.user.email) {
       this.email = this.store.user.email
     }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.$refs.email.focus()
+    })
   },
   methods: {
     async login() {
       await UserService.login(this.email, this.password)
-      .then(response => {
-        this.$cookies.set('token', response.token)
-        this.$router.push('/search')
-      })
-      .catch(err => {
-        this.msg = 'Username or password is incorrect'
-      })
+        .then(response => {
+          this.$cookies.set('token', response.token)
+          this.$router.push('/search')
+        })
+        .catch(err => {
+          this.msg = 'Username or password is incorrect'
+        })
+    },
+    signup() {
+      window.location.href = 'https://www.patientpreviewapp.com/signup'
     }
   }
 }

@@ -31,5 +31,25 @@ module.exports = {
       throw err
     })
     return subscription
+  },
+
+  getPlan: async (req, res) => {
+    stripe.plans.retrieve(req.body.planId)
+      .then(response => {
+        res.send(response)
+      })
+      .catch(err => {
+        res.status(400).send(err)
+      })
+  },
+
+  getProduct: async (req, res) => {
+    stripe.products.retrieve(req.body.productId)
+      .then(response => {
+        res.send(response)
+      })
+      .catch(err => {
+        res.status(400).send(err)
+      })
   }
 }
