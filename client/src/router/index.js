@@ -17,8 +17,7 @@ export default new Router({
     {
       path: '/search',
       name: 'search',
-      component: () => import('../views/Search.vue'),
-      beforeEnter: authGuard
+      component: () => import('../views/Search.vue')
     },
     {
       path: '/profile',
@@ -40,8 +39,7 @@ export default new Router({
     {
       path: '/lawsuit/:id',
       name: 'lawsuit',
-      component: () => import('../views/Lawsuit.vue'),
-      beforeEnter: authGuard
+      component: () => import('../views/Lawsuit.vue')
     },
     {
       path: '/login',
