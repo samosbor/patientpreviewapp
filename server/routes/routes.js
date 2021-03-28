@@ -11,11 +11,11 @@ module.exports = function(app) {
     res.send(`Hi! Server is listening`);
   })
 
-  app.post("/search", userMiddleware.isLoggedIn, (req, res) => {
+  app.post("/search", (req, res) => {
     search.searchPatient(req, res)
   })
 
-  app.get("/lawsuit/:id", userMiddleware.isLoggedIn, (req, res) => {
+  app.get("/lawsuit/:id", (req, res) => {
     lawsuit.getLawsuitById(req, res)
   })
 
