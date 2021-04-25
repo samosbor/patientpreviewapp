@@ -1,4 +1,4 @@
-const conn = require('../db/db')
+const db = require('../db/db')
 const dotenv = require('dotenv')
 dotenv.config()
 const stripeKey = process.env.NODE_ENV === 'production' ? process.env.STRIPE_KEY : process.env.STRIPE_TEST_KEY

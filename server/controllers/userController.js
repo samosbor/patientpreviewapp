@@ -1,4 +1,4 @@
-const conn = require('../db/db')
+const db = require('../db/db')
 const { v4: uuid } = require('uuid')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
@@ -16,7 +16,7 @@ module.exports = {
       INNER JOIN account a ON m.relatedAccountId = a.id
       WHERE u.id = ?;`
 
-    conn.query(sql, [req.tokenData.userId],
+    db.query(sql, [req.tokenData.userId],
       (err, results, fields) => {
         if (err) {
           console.log(err)
@@ -36,7 +36,7 @@ module.exports = {
       INNER JOIN user u ON m.relatedUserId = u.id
       WHERE a.name = ?;`
     
-    conn.query(sql, [req.body.companyName],
+    db.query(sql, [req.body.companyName],
       (err, results, fields) => {
         if (err) res.status(400);
         res.send(results);
@@ -45,7 +45,7 @@ module.exports = {
   },
   createUser: async (name, email) => {
     let sql1 = `SELECT * FROM user WHERE LOWER(email) = LOWER(?)`
-    user = await conn.promise().query(sql1, [email])
+    user = await db.promise().query(sql1, [email])
     .then(([rows,fields]) => {
       return rows
     })
@@ -63,7 +63,7 @@ module.exports = {
       email)
       VALUES
       (?, ?, ?)`
-    const rows = await conn.promise().query(sql2, [id, name, email])
+    const rows = await db.promise().query(sql2, [id, name, email])
       .then(([rows,fields]) => {
         return rows
       })
@@ -83,7 +83,7 @@ module.exports = {
         passwordHash)
         VALUES
         (?, ?, ?, ?)`
-      conn.promise().query(sql, [id, userId, email, hash])
+      db.promise().query(sql, [id, userId, email, hash])
         .then(([rows,fields]) => {
           return rows
         })
@@ -104,7 +104,7 @@ module.exports = {
       role)
       VALUES
       (?, ?, ?, ?)`
-    const rows = await conn.promise().query(sql, [id, userId, accountId, role])
+    const rows = await db.promise().query(sql, [id, userId, accountId, role])
       .then(([rows,fields]) => {
         return rows
       })
@@ -117,7 +117,7 @@ module.exports = {
     let sql = `SELECT * 
     FROM login
     WHERE LOWER(email) = LOWER(?)`
-    let user = await conn.promise().query(sql, [req.body.email])
+    let user = await db.promise().query(sql, [req.body.email])
     .then(([rows,fields]) => {
       return rows
     })

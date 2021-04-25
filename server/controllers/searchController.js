@@ -1,19 +1,17 @@
-const conn = require('../db/db')
+const db = require('../db/db')
 
 module.exports = {
 
   searchPatient: (req, res) => { 
-    let sql = `SELECT *, 
-    MATCH (CaseName,Plaintiff,Defendant) AGAINST (?)
-    as score 
-    FROM production.lawsuit
-    ORDER BY score DESC
-    LIMIT 10`
+    let stmt = db.prepare(`SELECT *
+    FROM lawsuit
+    WHERE CaseName LIKE ?
+    LIMIT 10`)
 
-    conn.query(sql, [req.body.name],
-    (err, results, fields) => {
-      if (err) res.status(400);
-      res.send(results);
-    })
+    let results = stmt.all("%"+req.body.name+"%")
+    for (const result of results) {
+      result.score = 10
+    }
+    res.send(results);
   }
 }
